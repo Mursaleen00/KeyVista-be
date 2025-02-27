@@ -180,10 +180,10 @@ export class AuthService {
     password,
   }: ResetPasswordDto): Promise<{ message: string }> {
     if (!this.isValidEmail(email))
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Invalid email format');
 
     const user: UserDocument | null = await this.userModel.findOne({ email });
-    if (!user) throw new UnauthorizedException('Invalid credentials');
+    if (!user) throw new UnauthorizedException('User not found');
 
     const storedOtp = this.otps.get(email);
     if (!storedOtp || storedOtp.expires < Date.now()) {
