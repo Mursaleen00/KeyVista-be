@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsString, MaxLength } from 'class-validator';
 
 export class OTPDto {
   @IsString()
@@ -6,6 +6,6 @@ export class OTPDto {
   email: string;
 
   @IsString()
-  @IsStrongPassword()
+  @MaxLength(6)
   otp: string;
 }
