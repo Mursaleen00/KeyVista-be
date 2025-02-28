@@ -1,10 +1,8 @@
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Express } from 'express';
-import { join } from 'path';
-import * as swaggerUi from 'swagger-ui-express';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { Express } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,19 +21,16 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  const expressApp = app.getHttpAdapter().getInstance() as Express;
-  expressApp.use(
-    '/api',
-    swaggerUi.serveFiles(join(__dirname, '../node_modules/swagger-ui-dist')),
-    swaggerUi.setup(document, {
-      swaggerOptions: {
-        persistAuthorization: true,
-      },
-    }),
-  );
+  // Serve Swagger UI at /api/docs
+  SwaggerModule.setup('api/docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+    customSiteTitle: 'Real State API Docs',
+  });
 
   await app.init();
-  return expressApp;
+  return app.getHttpAdapter().getInstance() as Express;
 }
 
 export default async (req: any, res: any) => {
@@ -61,19 +56,15 @@ if (process.env.NODE_ENV !== 'production') {
       .build();
     const document = SwaggerModule.createDocument(app, config);
 
-    const expressApp = app.getHttpAdapter().getInstance() as Express;
-    expressApp.use(
-      '/api',
-      swaggerUi.serveFiles(join(__dirname, '../node_modules/swagger-ui-dist')),
-      swaggerUi.setup(document, {
-        swaggerOptions: {
-          persistAuthorization: true,
-        },
-      }),
-    );
+    SwaggerModule.setup('api/docs', app, document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+      customSiteTitle: 'Real State API Docs',
+    });
 
     const port = process.env.PORT ?? 3000;
     await app.listen(port);
-    console.log(`Server running on http://localhost:${port}/api`);
+    console.log(`Server running on http://localhost:${port}/api/docs`);
   })();
 }
