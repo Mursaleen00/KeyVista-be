@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Express } from 'express';
 import { ConfigService } from '@nestjs/config';
+import * as swaggerUi from 'swagger-ui-express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,19 +25,21 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  // Swagger setup
-  SwaggerModule.setup('api/docs', app, document, {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-    customSiteTitle: 'Real State API Docs',
-  });
-
-  // Debug route
   const expressApp = app.getHttpAdapter().getInstance() as Express;
+  expressApp.use(
+    '/api/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+      customSiteTitle: 'Real State API Docs',
+    }),
+  );
   expressApp.get('/api/test', (_: any, res: any) =>
     res.json({ message: 'Test route working' }),
   );
+
   await app.init();
   return expressApp;
 }
@@ -66,14 +69,17 @@ if (process.env.NODE_ENV !== 'production') {
       .build();
     const document = SwaggerModule.createDocument(app, config);
 
-    SwaggerModule.setup('api/docs', app, document, {
-      swaggerOptions: {
-        persistAuthorization: true,
-      },
-      customSiteTitle: 'Real State API Docs',
-    });
-
     const expressApp = app.getHttpAdapter().getInstance() as Express;
+    expressApp.use(
+      '/api/docs',
+      swaggerUi.serve,
+      swaggerUi.setup(document, {
+        swaggerOptions: {
+          persistAuthorization: true,
+        },
+        customSiteTitle: 'Real State API Docs',
+      }),
+    );
     expressApp.get('/api/test', (_: any, res: any) =>
       res.json({ message: 'Test route working' }),
     );
