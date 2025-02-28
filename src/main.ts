@@ -1,12 +1,13 @@
-import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Express } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
+  const configService = app.get<ConfigService>(ConfigService);
 
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
@@ -23,8 +24,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  // Use SwaggerModule.setup for consistent behavior across environments
-  SwaggerModule.setup('api', app, document, {
+  SwaggerModule.setup('/api', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
@@ -32,25 +32,20 @@ async function bootstrap() {
     customCss: '.swagger-ui .topbar { display: none }',
   });
 
-  const port = configService.get<number>('PORT', 3000);
-  await app.listen(port);
-  return app;
+  await app.listen(process.env.PORT || 2000);
+  return app.getHttpAdapter().getInstance() as Express;
 }
 
-// For serverless environments
-export default async (req: Request, res: Response): Promise<void> => {
-  const app = await bootstrap();
-  const instance = app.getHttpAdapter().getInstance() as (
-    req: Request,
-    res: Response,
-  ) => void;
-  return instance(req, res);
-};
+// Vercel serverless handler
+export default async function handler(req: any, res: any) {
+  const server = await bootstrap();
+  return server(req, res);
+}
 
+// Local development
 if (process.env.NODE_ENV !== 'production') {
-  bootstrap().then((app) => {
-    const configService = app.get(ConfigService);
-    const port = configService.get<number>('PORT', 3000);
+  bootstrap().then((expressApp) => {
+    const port = process.env.PORT || 2000;
     console.log(`Server running on http://localhost:${port}/api`);
   });
 }
