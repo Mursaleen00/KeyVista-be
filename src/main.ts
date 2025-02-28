@@ -1,19 +1,16 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 import { Express } from 'express';
+import { join } from 'path';
+import * as swaggerUi from 'swagger-ui-express';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  // Global prefix
   app.setGlobalPrefix('api');
-
-  // Validation pipe
   app.useGlobalPipes(new ValidationPipe());
 
-  // Swagger setup
   const config = new DocumentBuilder()
     .setTitle('Real State API')
     .setDescription('The Real State API description')
@@ -26,32 +23,29 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  // Use Nest's Swagger setup
-  SwaggerModule.setup('api', app, document, {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-    customSiteTitle: 'Real State API Docs', // Optional
-  });
+  const expressApp = app.getHttpAdapter().getInstance() as Express;
+  expressApp.use(
+    '/api',
+    swaggerUi.serveFiles(join(__dirname, '../node_modules/swagger-ui-dist')),
+    swaggerUi.setup(document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+    }),
+  );
 
-  // Initialize app
   await app.init();
-
-  // Return Express instance
-  return app.getHttpAdapter().getInstance() as Express;
+  return expressApp;
 }
 
-// Vercel serverless export
 export default async (req: any, res: any) => {
   const server = await bootstrap();
   server(req, res);
 };
 
-// Local development
 if (process.env.NODE_ENV !== 'production') {
   (async () => {
     const app = await NestFactory.create(AppModule);
-
     app.setGlobalPrefix('api');
     app.useGlobalPipes(new ValidationPipe());
 
@@ -67,12 +61,16 @@ if (process.env.NODE_ENV !== 'production') {
       .build();
     const document = SwaggerModule.createDocument(app, config);
 
-    SwaggerModule.setup('api', app, document, {
-      swaggerOptions: {
-        persistAuthorization: true,
-      },
-      customSiteTitle: 'Real State API Docs',
-    });
+    const expressApp = app.getHttpAdapter().getInstance() as Express;
+    expressApp.use(
+      '/api',
+      swaggerUi.serveFiles(join(__dirname, '../node_modules/swagger-ui-dist')),
+      swaggerUi.setup(document, {
+        swaggerOptions: {
+          persistAuthorization: true,
+        },
+      }),
+    );
 
     const port = process.env.PORT ?? 3000;
     await app.listen(port);
