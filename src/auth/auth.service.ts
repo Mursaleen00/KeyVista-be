@@ -50,15 +50,28 @@ export class AuthService {
   // ============================ Register ============================
   async register({
     email,
-    name,
+    fullName,
     password,
+    profilePicture,
+    country,
+    city,
+    phoneNumber,
+    agreeWithPT,
   }: RegisterInterface): Promise<Partial<UserDocument>> {
     const already: UserDocument | null = await this.userModel.findOne({
       email,
     });
 
-    if (!email || !name || !password)
-      throw new BadRequestException('Email, name, and password are required');
+    if (
+      !email ||
+      !fullName ||
+      !password ||
+      !country ||
+      !city ||
+      !phoneNumber ||
+      !agreeWithPT
+    )
+      throw new BadRequestException('All fields are required');
 
     if (!this.isValidEmail(email))
       throw new BadRequestException('Invalid email format');
@@ -75,10 +88,15 @@ export class AuthService {
     const hashedPassword: string = await bcrypt?.hash(password, 10);
 
     const newUser: UserDocument = await this.userModel.create({
-      name,
+      city,
       email,
-      password: hashedPassword,
+      country,
+      fullName,
+      phoneNumber,
+      agreeWithPT,
+      profilePicture,
       isVerified: false,
+      password: hashedPassword,
     });
 
     await this.emailService.sendOtpEmail(email, otp);
@@ -104,7 +122,7 @@ export class AuthService {
     const jwtSecret: string = process.env.JWT_SECRET ?? '';
 
     const token: string = jwt.sign(
-      { email: user.email, name: user.name, id: user._id },
+      { email: user.email, name: user.fullName, id: user._id },
       jwtSecret,
       { expiresIn: '1h' },
     );
@@ -141,7 +159,7 @@ export class AuthService {
     const jwtSecret: string = process.env.JWT_SECRET ?? '';
 
     const token: string = jwt.sign(
-      { email: user.email, name: user.name, id: user._id },
+      { email: user.email, name: user.fullName, id: user._id },
       jwtSecret,
       { expiresIn: '1h' },
     );

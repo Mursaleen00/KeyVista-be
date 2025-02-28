@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { OTPDto } from './dto/otp.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ResendOTPDto } from './dto/resend-otp.dtp';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UserDocument } from './entity/register.entity';
 
@@ -34,16 +35,14 @@ export class AuthController {
 
   // ============================ Resend OTP ============================
   @Post('resend-otp')
-  async resendOtp(
-    @Body() body: { email: string },
-  ): Promise<{ message: string }> {
+  async resendOtp(@Body() body: ResendOTPDto): Promise<{ message: string }> {
     return this.authService.resendOtp(body.email);
   }
 
   // ============================ Forgot Password ============================
   @Post('forgot-password')
   async forgotPassword(
-    @Body() body: { email: string },
+    @Body() body: ResendOTPDto,
   ): Promise<{ message: string }> {
     return this.authService.forgotPassword(body.email);
   }
