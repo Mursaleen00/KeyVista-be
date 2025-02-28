@@ -3,9 +3,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Express } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
 
@@ -21,7 +24,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  // Serve Swagger UI at /api/docs
   SwaggerModule.setup('api/docs', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
@@ -41,6 +43,8 @@ export default async (req: any, res: any) => {
 if (process.env.NODE_ENV !== 'production') {
   (async () => {
     const app = await NestFactory.create(AppModule);
+    const configService = app.get(ConfigService);
+
     app.setGlobalPrefix('api');
     app.useGlobalPipes(new ValidationPipe());
 
@@ -63,7 +67,7 @@ if (process.env.NODE_ENV !== 'production') {
       customSiteTitle: 'Real State API Docs',
     });
 
-    const port = process.env.PORT ?? 3000;
+    const port = configService.get<number>('PORT', 3000);
     await app.listen(port);
     console.log(`Server running on http://localhost:${port}/api/docs`);
   })();

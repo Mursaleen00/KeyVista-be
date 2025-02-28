@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,8 +10,14 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController],
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MongoDB_URL', ''), // Fallback to empty string
+      }),
+      inject: [ConfigService],
+    }),
     AuthModule,
-    MongooseModule.forRoot(process.env.MongoDB_URL ?? ''),
   ],
 })
 export class AppModule {}
