@@ -2,11 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { Express } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Global prefix for consistency
+  // Global prefix
   app.setGlobalPrefix('api');
 
   // Validation pipe
@@ -24,31 +25,33 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
+
+  // Use Nest's Swagger setup
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
+    customSiteTitle: 'Real State API Docs', // Optional
   });
 
-  // Initialize the app
+  // Initialize app
   await app.init();
 
-  // Return the Express instance for Vercel
-  return app.getHttpAdapter().getInstance();
+  // Return Express instance
+  return app.getHttpAdapter().getInstance() as Express;
 }
 
-// Export as a Vercel serverless function
+// Vercel serverless export
 export default async (req: any, res: any) => {
   const server = await bootstrap();
   server(req, res);
 };
 
-// For local development
+// Local development
 if (process.env.NODE_ENV !== 'production') {
   (async () => {
     const app = await NestFactory.create(AppModule);
 
-    // Same setup as bootstrap to avoid duplication
     app.setGlobalPrefix('api');
     app.useGlobalPipes(new ValidationPipe());
 
@@ -63,10 +66,12 @@ if (process.env.NODE_ENV !== 'production') {
       )
       .build();
     const document = SwaggerModule.createDocument(app, config);
+
     SwaggerModule.setup('api', app, document, {
       swaggerOptions: {
         persistAuthorization: true,
       },
+      customSiteTitle: 'Real State API Docs',
     });
 
     const port = process.env.PORT ?? 3000;
