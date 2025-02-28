@@ -1,51 +1,25 @@
-import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Express } from 'express';
+import { NestFactory } from '@nestjs/core';
+import { SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
+import swaggerConfig from './config/database/swagger.config.service';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get<ConfigService>(ConfigService);
-
-  app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
 
-  const config = new DocumentBuilder()
-    .setTitle('Real State API')
-    .setDescription('The Real State API description')
-    .setVersion('1.0')
-    .addTag('auth', 'Authentication-related endpoints')
-    .addBearerAuth(
-      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-      'JWT-auth',
-    )
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
 
-  SwaggerModule.setup('/api', app, document, {
+  SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
-    customSiteTitle: 'Real State API Docs',
-    customCss: '.swagger-ui .topbar { display: none }',
   });
 
-  await app.listen(process.env.PORT || 2000);
-  return app.getHttpAdapter().getInstance() as Express;
+  await app.listen(process.env.PORT ?? 3000);
+  console.log(
+    `Application is running on: http://localhost:${process.env.PORT ?? 3000}/api/`,
+  );
 }
 
-// Vercel serverless handler
-export default async function handler(req: any, res: any) {
-  const server = await bootstrap();
-  return server(req, res);
-}
-
-// Local development
-if (process.env.NODE_ENV !== 'production') {
-  bootstrap().then((expressApp) => {
-    const port = process.env.PORT || 2000;
-    console.log(`Server running on http://localhost:${port}/api`);
-  });
-}
+bootstrap();
