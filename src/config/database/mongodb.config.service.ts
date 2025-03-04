@@ -8,7 +8,6 @@ import {
 @Injectable()
 export class MongoDBConfigService implements MongooseOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
-
   public createMongooseOptions():
     | MongooseModuleOptions
     | Promise<MongooseModuleOptions> {
