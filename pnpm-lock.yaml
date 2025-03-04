@@ -51,8 +51,8 @@ importers:
         specifier: ^7.8.1
         version: 7.8.2
       swagger-ui-express:
-        specifier: ^5.0.1
-        version: 5.0.1(express@5.0.1)
+        specifier: ^4.3.0
+        version: 4.3.0(express@5.0.1)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -3390,11 +3390,11 @@ packages:
   swagger-ui-dist@5.20.0:
     resolution: {integrity: sha512-V5pozVTZxivdoQq/SQWxj3A4cOu5opk9MEbcZANX3Pj8X8xCrD1QCtBT7744Pz9msOvt0nnmy9JvM/9PGonCdg==}
 
-  swagger-ui-express@5.0.1:
-    resolution: {integrity: sha512-SrNU3RiBGTLLmFU8GIJdOdanJTl4TOmT27tt3bWWHppqYmAZ6IDuEuBvMU6nZq0zLEe6b/1rACXCgLZqO6ZfrA==}
+  swagger-ui-express@4.3.0:
+    resolution: {integrity: sha512-jN46SEEe9EoXa3ZgZoKgnSF6z0w3tnM1yqhO4Y+Q4iZVc8JOQB960EZpIAz6rNROrDApVDwcMHR0mhlnc/5Omw==}
     engines: {node: '>= v0.10.32'}
     peerDependencies:
-      express: '>=4.0.0 || >=5.0.0-beta'
+      express: '>=4.0.0'
 
   symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
@@ -7365,7 +7365,7 @@ snapshots:
     dependencies:
       '@scarf/scarf': 1.4.0
 
-  swagger-ui-express@5.0.1(express@5.0.1):
+  swagger-ui-express@4.3.0(express@5.0.1):
     dependencies:
       express: 5.0.1
       swagger-ui-dist: 5.20.0
