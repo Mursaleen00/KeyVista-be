@@ -9,6 +9,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
+
+import isValidEmail from 'src/utils/email-validation';
+import generateOtp from 'src/utils/otp-generator';
+
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { User, UserDocument } from './entity/register.entity';
 import { LoginInterface } from './interface/login.interface';
@@ -17,28 +21,15 @@ import { EmailService } from './services/email.service';
 
 @Injectable()
 export class AuthService {
-  private otps: Map<string, { otp: string; expires: number }> = new Map();
-
-  private generateOtp(): string {
-    return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-  }
-
-  private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
+  //  ============================ Send OTP ============================
   private async sendOtp(email: string): Promise<void> {
-    if (!this.isValidEmail(email))
-      throw new BadRequestException('Invalid email format');
+    isValidEmail(email);
 
     const user: UserDocument | null = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException('User not found');
 
-    const otp = this.generateOtp();
-    const expires = Date.now() + 10 * 60 * 1000;
-    this.otps.set(email, { otp, expires });
-
+    const otp = generateOtp();
+    await this.userModel.updateOne({ email }, { otp });
     await this.emailService.sendOtpEmail(email, otp);
   }
 
@@ -49,14 +40,14 @@ export class AuthService {
 
   // ============================ Register ============================
   async register({
+    city,
     email,
+    country,
     fullName,
     password,
-    profilePicture,
-    country,
-    city,
-    phoneNumber,
     agreeWithPT,
+    phoneNumber,
+    profilePicture,
   }: RegisterInterface): Promise<Partial<UserDocument>> {
     const already: UserDocument | null = await this.userModel.findOne({
       email,
@@ -73,17 +64,14 @@ export class AuthService {
     )
       throw new BadRequestException('All fields are required');
 
-    if (!this.isValidEmail(email))
-      throw new BadRequestException('Invalid email format');
+    isValidEmail(email);
 
     if (password.length < 6)
       throw new BadRequestException('Password must be at least 6 characters');
 
     if (already) throw new ConflictException('User already exists');
 
-    const otp = this.generateOtp();
-    const expires = Date.now() + 10 * 60 * 1000;
-    this.otps.set(email, { otp, expires });
+    const otp = generateOtp();
 
     const hashedPassword: string = await bcrypt?.hash(password, 10);
 
@@ -97,6 +85,7 @@ export class AuthService {
       profilePicture,
       isVerified: false,
       password: hashedPassword,
+      otp,
     });
 
     await this.emailService.sendOtpEmail(email, otp);
@@ -139,23 +128,15 @@ export class AuthService {
     email: string,
     otp: string,
   ): Promise<{ user: Partial<UserDocument>; token: string }> {
-    const storedOtp = this.otps.get(email);
+    const user = await this.userModel.findOne({ email });
 
-    if (!storedOtp || storedOtp.expires < Date.now())
-      throw new BadRequestException('OTP has expired or is invalid');
-
-    if (storedOtp.otp !== otp) throw new BadRequestException('Incorrect OTP');
-
-    await this.userModel.updateOne({ email }, { isVerified: true });
-
-    const user: UserDocument | null = await this.userModel.findOne({ email });
     if (!user) throw new UnauthorizedException('Invalid credentials');
+    if (user?.otp !== otp) throw new BadRequestException('Incorrect OTP');
 
-    if (!storedOtp || storedOtp.expires < Date.now()) {
-      throw new BadRequestException('OTP has expired or is invalid');
-    }
+    if (!user?.isVerified) {
+      await this.userModel.updateOne({ email }, { isVerified: true, otp: '' });
+    } else await this.userModel.updateOne({ email }, { otp: '' });
 
-    if (storedOtp.otp !== otp) throw new UnauthorizedException('Invalid OTP');
     const jwtSecret: string = process.env.JWT_SECRET ?? '';
 
     const token: string = jwt.sign(
@@ -177,16 +158,13 @@ export class AuthService {
 
   // ============================ Forgot Password ============================
   async forgotPassword(email: string): Promise<{ message: string }> {
-    if (!this.isValidEmail(email)) {
-      throw new BadRequestException('Invalid email format');
-    }
+    isValidEmail(email);
 
     const user: UserDocument | null = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException('User not found');
 
-    const otp = this.generateOtp();
-    const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
-    this.otps.set(email, { otp, expires });
+    const otp = generateOtp();
+    await this.userModel.findByIdAndUpdate({ otp });
 
     await this.emailService.sendOtpEmail(email, otp);
     return { message: 'OTP sent successfully' };
@@ -197,24 +175,24 @@ export class AuthService {
     email,
     password,
   }: ResetPasswordDto): Promise<{ message: string }> {
-    if (!this.isValidEmail(email))
-      throw new BadRequestException('Invalid email format');
+    isValidEmail(email);
 
     const user: UserDocument | null = await this.userModel.findOne({ email });
     if (!user) throw new UnauthorizedException('User not found');
 
-    const storedOtp = this.otps.get(email);
-    if (!storedOtp || storedOtp.expires < Date.now()) {
+    const storedOtp = user?.otp;
+    if (!storedOtp)
       throw new BadRequestException('Please verify your email first');
-    }
 
     if (!password || password.length < 6)
       throw new BadRequestException('Password must be at least 6 characters');
 
     const hashedPassword: string = await bcrypt?.hash(password, 10);
-    await this.userModel.updateOne({ email }, { password: hashedPassword });
 
-    this.otps.delete(email);
+    await this.userModel.updateOne(
+      { email },
+      { password: hashedPassword, otp: null },
+    );
 
     return { message: 'Password reset successfully' };
   }

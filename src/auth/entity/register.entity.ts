@@ -31,6 +31,9 @@ export class User {
   isVerified: boolean;
 
   @Prop()
+  otp: string;
+
+  @Prop()
   createdAt: Date;
 
   @Prop()

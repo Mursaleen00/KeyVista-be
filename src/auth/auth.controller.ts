@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { OTPDto } from './dto/otp.dto';
@@ -12,12 +13,16 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   // ============================ Register ============================
+  @ApiOperation({ summary: 'Register The User' })
+  @ApiBody({ type: RegisterDto })
   @Post('register')
   async register(@Body() body: RegisterDto): Promise<Partial<UserDocument>> {
     return this.authService.register(body);
   }
 
   // ============================ Login ============================
+  @ApiOperation({ summary: 'Login The User' })
+  @ApiBody({ type: LoginDto })
   @Post('login')
   async login(
     @Body() body: LoginDto,
@@ -26,6 +31,8 @@ export class AuthController {
   }
 
   // ============================ Verify OTP ============================
+  @ApiOperation({ summary: 'Verify OTP' })
+  @ApiBody({ type: OTPDto })
   @Post('verify-otp')
   async verifyOtp(
     @Body() body: OTPDto,
@@ -34,12 +41,16 @@ export class AuthController {
   }
 
   // ============================ Resend OTP ============================
+  @ApiOperation({ summary: 'Resend OTP' })
+  @ApiBody({ type: ResendOTPDto })
   @Post('resend-otp')
   async resendOtp(@Body() body: ResendOTPDto): Promise<{ message: string }> {
     return this.authService.resendOtp(body.email);
   }
 
   // ============================ Forgot Password ============================
+  @ApiOperation({ summary: 'Forgot Password' })
+  @ApiBody({ type: ResendOTPDto })
   @Post('forgot-password')
   async forgotPassword(
     @Body() body: ResendOTPDto,
@@ -48,6 +59,8 @@ export class AuthController {
   }
 
   // ============================ Reset Password ============================
+  @ApiOperation({ summary: 'Reset Password' })
+  @ApiBody({ type: ResetPasswordDto })
   @Post('reset-password')
   async resetPassword(
     @Body() body: ResetPasswordDto,
