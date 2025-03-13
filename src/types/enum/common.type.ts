@@ -23,6 +23,11 @@ export enum AuthorizationHeader {
   BEARER = 'Bearer Authorization',
 }
 
+export enum IAuthorizationHeader {
+  BEARER = 'Bearer Authorization',
+  BASIC = 'Authorization',
+}
+
 export enum RegexError {
   ALPHABETIC = 'must only contain letters and spaces',
   ALPHANUMERIC = 'must only contain letters, numbers, and spaces',
