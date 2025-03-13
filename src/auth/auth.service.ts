@@ -21,18 +21,6 @@ import { EmailService } from './services/email.service';
 
 @Injectable()
 export class AuthService {
-  //  ============================ Send OTP ============================
-  private async sendOtp(email: string): Promise<void> {
-    isValidEmail(email);
-
-    const user: UserDocument | null = await this.userModel.findOne({ email });
-    if (!user) throw new NotFoundException('User not found');
-
-    const otp = generateOtp();
-    await this.userModel.updateOne({ email }, { otp });
-    await this.emailService.sendOtpEmail(email, otp);
-  }
-
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
     private readonly emailService: EmailService,
@@ -195,5 +183,17 @@ export class AuthService {
     );
 
     return { message: 'Password reset successfully' };
+  }
+
+  //  ============================ Send OTP ============================
+  private async sendOtp(email: string): Promise<void> {
+    isValidEmail(email);
+
+    const user: UserDocument | null = await this.userModel.findOne({ email });
+    if (!user) throw new NotFoundException('User not found');
+
+    const otp = generateOtp();
+    await this.userModel.updateOne({ email }, { otp });
+    await this.emailService.sendOtpEmail(email, otp);
   }
 }

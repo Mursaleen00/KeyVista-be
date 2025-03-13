@@ -1,42 +1,20 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
+import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
+import { AuthorizationHeader } from 'src/types/enum/common.type';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @UseGuards(AuthenticationGuard)
+  @ApiBearerAuth(AuthorizationHeader.BEARER)
+  @ApiOperation({ summary: 'Get Me' })
+  @Get('me')
+  getMe(@LoggedInUser() id: number) {
+    console.log('🚀 ~ UserController ~ getMe ~ authorization:', id);
+    return this.userService.getMe(id);
   }
 }
