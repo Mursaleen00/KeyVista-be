@@ -13,6 +13,8 @@ import { Model } from 'mongoose';
 import isValidEmail from 'src/utils/email-validation';
 import generateOtp from 'src/utils/otp-generator';
 
+import { UserResponse } from 'src/types/types/user-response';
+import { updateResponse } from 'src/utils/update-response';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { User, UserDocument } from './entity/register.entity';
 import { LoginInterface } from './interface/login.interface';
@@ -36,7 +38,7 @@ export class AuthService {
     agreeWithPT,
     phoneNumber,
     profilePicture,
-  }: RegisterInterface): Promise<Partial<UserDocument>> {
+  }: RegisterInterface): Promise<UserResponse> {
     const already: UserDocument | null = await this.userModel.findOne({
       email,
     });
@@ -78,15 +80,15 @@ export class AuthService {
 
     await this.emailService.sendOtpEmail(email, otp);
 
-    const { password: _, ...userResponse } = newUser.toObject();
-    return userResponse;
+    const { updatedUser } = updateResponse({ user: newUser });
+    return updatedUser;
   }
 
   // ============================ Login ============================
   async login({
     email,
     password,
-  }: LoginInterface): Promise<{ user: Partial<UserDocument>; token: string }> {
+  }: LoginInterface): Promise<{ user: UserResponse; token: string }> {
     if (!email || !password)
       throw new BadRequestException('Email and password are required');
 
@@ -104,9 +106,10 @@ export class AuthService {
       { expiresIn: '1h' },
     );
 
-    const { password: _, ...userResponse } = user.toObject();
+    const { updatedUser } = updateResponse({ user });
+
     return {
-      user: userResponse,
+      user: updatedUser,
       token,
     };
   }
@@ -115,7 +118,7 @@ export class AuthService {
   async verifyOtp(
     email: string,
     otp: string,
-  ): Promise<{ user: Partial<UserDocument>; token: string }> {
+  ): Promise<{ user: UserResponse; token: string }> {
     const user = await this.userModel.findOne({ email });
 
     if (!user) throw new UnauthorizedException('Invalid credentials');
@@ -133,9 +136,9 @@ export class AuthService {
       { expiresIn: '1h' },
     );
 
-    const { password: _, ...userResponse } = user.toObject();
+    const { updatedUser } = updateResponse({ user });
 
-    return { user: userResponse, token };
+    return { user: updatedUser, token };
   }
 
   // ============================ Resend OTP ============================

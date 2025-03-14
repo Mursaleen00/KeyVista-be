@@ -16,10 +16,10 @@ export class User {
   phoneNumber: string;
 
   @Prop({ required: true })
-  agreeWithPT: boolean;
+  profilePicture: string;
 
   @Prop({ required: true })
-  profilePicture: string;
+  agreeWithPT: boolean;
 
   @Prop({ required: true })
   email: string;

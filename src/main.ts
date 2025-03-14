@@ -2,7 +2,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import swaggerConfig, {
+import {
+  swaggerConfig,
   themeOptions,
 } from './config/database/swagger.config.service';
 

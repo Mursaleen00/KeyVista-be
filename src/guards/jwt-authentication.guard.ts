@@ -1,7 +1,7 @@
 import {
-  Injectable,
   CanActivate,
   ExecutionContext,
+  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -20,10 +20,8 @@ export class AuthenticationGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     try {
       const request = context.switchToHttp().getRequest();
-      console.log('🚀 ~ AuthenticationGuard ~ request:', request.headers);
 
       const token = request.headers.authorization.split(' ')[1];
-      console.log('🚀 ~ AuthenticationGuard ~ token:', token);
 
       if (!token) {
         throw new UnauthorizedException('Token does not exist');
@@ -34,9 +32,8 @@ export class AuthenticationGuard implements CanActivate {
       });
 
       request.user = decoded;
-      console.log(decoded.id);
-
       request['loggedInUserId'] = decoded.id;
+
       return true;
     } catch (error) {
       throw new UnauthorizedException(

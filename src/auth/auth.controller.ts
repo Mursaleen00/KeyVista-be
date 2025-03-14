@@ -1,12 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { UserResponse } from 'src/types/types/user-response';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { OTPDto } from './dto/otp.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ResendOTPDto } from './dto/resend-otp.dtp';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { UserDocument } from './entity/register.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +16,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Register The User' })
   @ApiBody({ type: RegisterDto })
   @Post('register')
-  async register(@Body() body: RegisterDto): Promise<Partial<UserDocument>> {
+  async register(@Body() body: RegisterDto): Promise<UserResponse> {
     return this.authService.register(body);
   }
 
@@ -26,7 +26,7 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() body: LoginDto,
-  ): Promise<{ user: Partial<UserDocument>; token: string }> {
+  ): Promise<{ user: UserResponse; token: string }> {
     return this.authService.login(body);
   }
 
@@ -36,7 +36,7 @@ export class AuthController {
   @Post('verify-otp')
   async verifyOtp(
     @Body() body: OTPDto,
-  ): Promise<{ user: Partial<UserDocument>; token: string }> {
+  ): Promise<{ user: UserResponse; token: string }> {
     return this.authService.verifyOtp(body.email, body.otp);
   }
 

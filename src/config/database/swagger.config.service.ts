@@ -3,8 +3,8 @@ import { IAuthorizationHeader } from 'src/types/enum/common.type';
 import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
 
 const swaggerConfig = new DocumentBuilder()
-  .setTitle('Real State API')
-  .setDescription('The Real State API description')
+  .setTitle('Key Vista API')
+  .setDescription('The Key Vista API description')
   .setVersion('1.0')
   .addBearerAuth(
     {
@@ -21,11 +21,11 @@ const swaggerConfig = new DocumentBuilder()
 
 const theme = new SwaggerTheme();
 
-export const themeOptions = {
+const themeOptions = {
   customCss: theme.getBuffer(SwaggerThemeNameEnum.DRACULA),
   swaggerOptions: {
     persistAuthorization: true,
   },
 };
 
-export default swaggerConfig;
+export { swaggerConfig, themeOptions };
