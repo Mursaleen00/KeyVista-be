@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from 'src/auth/entity/register.entity';
 import { UserResponse } from 'src/types/types/user-response';
 import { updateResponse } from 'src/utils/update-response';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -31,6 +34,37 @@ export class UserService {
 
     return {
       message: 'Profile updated successfully',
+      user: updatedUser,
+    };
+  }
+
+  async changePassword(
+    id: string,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<{ message: string; user: UserResponse }> {
+    const user = await this.userModel.findById(id);
+
+    const isMatch = await bcrypt?.compare(
+      changePasswordDto.oldPassword,
+      user?.password || '',
+    );
+
+    if (!isMatch) throw new BadRequestException('Old password is incorrect');
+
+    if (changePasswordDto.password == changePasswordDto.oldPassword) {
+      throw new BadRequestException(
+        'New password cannot be the same as the old password',
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(changePasswordDto.password, 10);
+
+    await this.userModel.updateOne({ _id: id }, { password: hashedPassword });
+
+    const { updatedUser } = updateResponse({ user });
+
+    return {
+      message: 'Password changed successfully',
       user: updatedUser,
     };
   }

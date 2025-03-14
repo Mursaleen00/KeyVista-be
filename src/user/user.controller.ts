@@ -6,6 +6,7 @@ import { AuthorizationHeader } from 'src/types/enum/common.type';
 import { UserResponse } from 'src/types/types/user-response';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('user')
 export class UserController {
@@ -25,10 +26,22 @@ export class UserController {
   @ApiBearerAuth(AuthorizationHeader.BEARER)
   @ApiOperation({ summary: 'Update Profile' })
   @Patch('update')
-  UpdateProfile(
+  updateProfile(
     @Body() updateUserDto: UpdateUserDto,
     @LoggedInUser() id: string,
   ): Promise<{ message: string; user: UserResponse }> {
     return this.userService.update(id, updateUserDto);
+  }
+
+  // ============================ CHANGE PASSWORD =====================
+  @UseGuards(AuthenticationGuard)
+  @ApiBearerAuth(AuthorizationHeader.BEARER)
+  @ApiOperation({ summary: 'Change Password' })
+  @Patch('change-password')
+  changePassword(
+    @Body() changePasswordDto: ChangePasswordDto,
+    @LoggedInUser() id: string,
+  ): Promise<{ message: string; user: UserResponse }> {
+    return this.userService.changePassword(id, changePasswordDto);
   }
 }

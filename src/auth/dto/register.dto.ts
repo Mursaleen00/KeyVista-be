@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsString,
   IsStrongPassword,
+  MinLength,
 } from 'class-validator';
 
 export class RegisterDto {
@@ -16,6 +17,7 @@ export class RegisterDto {
   @ApiProperty({ example: '123Password!@#' })
   @IsString()
   @IsStrongPassword()
+  @MinLength(8)
   password: string;
 
   @ApiProperty({ example: 'Example' })
