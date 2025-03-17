@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 
 export class ResetPasswordDto {
-  @ApiProperty({ example: 'test@example.com' })
+  @ApiProperty({ example: 'example@yopmail.com', name: 'email' })
   @IsString()
   @IsEmail()
   email: string;

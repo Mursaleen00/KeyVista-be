@@ -21,9 +21,6 @@ export class ChangePasswordDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
-  @ApiProperty({
-    example: '@123Password',
-    description: 'Password',
-  })
+  @ApiProperty({ example: '123Password!@#' })
   oldPassword: string;
 }
