@@ -6,14 +6,17 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
 import { AuthorizationHeader } from 'src/types/enum/common.type';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { PropertiesService } from './properties.service';
+import { FilterDto } from './dto/filter.dto';
 
 @Controller('properties')
 export class PropertiesController {
@@ -24,17 +27,22 @@ export class PropertiesController {
   @ApiBearerAuth(AuthorizationHeader.BEARER)
   @ApiOperation({ summary: 'Create Property' })
   @Post()
-  create(@Body() createPropertyDto: CreatePropertyDto) {
-    return this.propertiesService.create(createPropertyDto);
+  create(
+    @Body() createPropertyDto: CreatePropertyDto,
+    @LoggedInUser() id: string,
+  ) {
+    return this.propertiesService.create(createPropertyDto, id);
   }
 
   // ============================ GET ALL PROPERTY ============================
+  @ApiOperation({ summary: 'Get All Properties' })
   @Get()
-  findAll() {
-    return this.propertiesService.findAll();
+  findAll(@Query() filters: FilterDto) {
+    return this.propertiesService.findAll(filters);
   }
 
   // ============================ GET PROPERTY BY ID ============================
+  @ApiOperation({ summary: 'Get Property By Id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.propertiesService.findOne(+id);
