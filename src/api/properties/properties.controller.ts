@@ -56,8 +56,9 @@ export class PropertiesController {
   update(
     @Param('id') id: string,
     @Body() updatePropertyDto: UpdatePropertyDto,
+    @LoggedInUser() userId: string,
   ) {
-    return this.propertiesService.update(+id, updatePropertyDto);
+    return this.propertiesService.update(id, updatePropertyDto, userId);
   }
 
   // ============================ DELETE PROPERTY ============================

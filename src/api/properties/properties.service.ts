@@ -96,8 +96,30 @@ export class PropertiesService {
   }
 
   // ================ Update a property ================
-  update(id: number, updatePropertyDto: UpdatePropertyDto) {
-    return `action updates a #${id} property`;
+  async update(
+    id: string,
+    updatePropertyDto: UpdatePropertyDto,
+    userId: string,
+  ) {
+    const property = await this.PropertyModel.findById(id);
+    if (!property) throw new NotFoundException('Property not found');
+
+    if (property.ownerId.toString() !== userId) {
+      throw new NotFoundException(
+        'You are not authorized to update this property',
+      );
+    }
+
+    const updatedProperty = await this.PropertyModel.findByIdAndUpdate(
+      id,
+      updatePropertyDto,
+      { new: true },
+    );
+
+    return {
+      message: 'Property updated successfully',
+      data: updatedProperty,
+    };
   }
 
   // ================ Delete a property ================
