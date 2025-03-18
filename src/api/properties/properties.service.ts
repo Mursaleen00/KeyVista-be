@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/auth/entity/register.entity';
 import { FilterQueryT } from 'src/types/types/filter-query';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { FilterDto } from './dto/filter.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { Property, PropertyDocument } from './entities/property.entity';
+import { User, UserDocument } from '../auth/entity/register.entity';
 
 @Injectable()
 export class PropertiesService {

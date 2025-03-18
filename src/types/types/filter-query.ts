@@ -1,7 +1,7 @@
 import { FilterQuery } from 'mongoose';
+import { Property } from 'src/api/properties/entities/property.entity';
 import { PropertyKind } from 'src/types/enum/property-kind';
 import { PropertyPurpose } from 'src/types/enum/property-purpose';
-import { Property } from 'src/properties/entities/property.entity';
 
 interface City {
   $regex: string;

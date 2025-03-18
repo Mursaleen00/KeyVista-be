@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from 'src/auth/entity/register.entity';
 import { Property, PropertySchema } from './entities/property.entity';
 import { PropertiesController } from './properties.controller';
 import { PropertiesService } from './properties.service';
+import { User, UserSchema } from '../auth/entity/register.entity';
 
 @Module({
   imports: [

@@ -15,10 +15,10 @@ import generateOtp from 'src/utils/otp-generator';
 
 import { UserResponse } from 'src/types/types/user-response';
 import { updateResponse } from 'src/utils/update-response';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { User, UserDocument } from './entity/register.entity';
-import { LoginInterface } from './interface/login.interface';
-import { RegisterInterface } from './interface/register.interface';
 import { EmailService } from './services/email.service';
 
 @Injectable()
@@ -38,7 +38,7 @@ export class AuthService {
     agreeWithPT,
     phoneNumber,
     profilePicture,
-  }: RegisterInterface): Promise<UserResponse> {
+  }: RegisterDto): Promise<UserResponse> {
     const already: UserDocument | null = await this.userModel.findOne({
       email,
     });
@@ -88,7 +88,7 @@ export class AuthService {
   async login({
     email,
     password,
-  }: LoginInterface): Promise<{ user: UserResponse; token: string }> {
+  }: LoginDto): Promise<{ user: UserResponse; token: string }> {
     if (!email || !password)
       throw new BadRequestException('Email and password are required');
 

@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { PropertiesModule } from './properties/properties.module';
+import { AuthModule } from './api/auth/auth.module';
+import { UserModule } from './api/user/user.module';
+import { PropertiesModule } from './api/properties/properties.module';
 
 @Module({
   imports: [
@@ -19,8 +19,8 @@ import { PropertiesModule } from './properties/properties.module';
       }),
       inject: [ConfigService],
     }),
-    UserModule,
     AuthModule,
+    UserModule,
     PropertiesModule,
   ],
   providers: [],

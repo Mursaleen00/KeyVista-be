@@ -1,4 +1,4 @@
-import { User } from 'src/auth/entity/register.entity';
+import { User } from 'src/api/auth/entity/register.entity';
 
 export interface GenerateOTPOptions {
   digits: boolean;
