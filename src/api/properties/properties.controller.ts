@@ -45,7 +45,7 @@ export class PropertiesController {
   @ApiOperation({ summary: 'Get Property By Id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.propertiesService.findOne(+id);
+    return this.propertiesService.findOne(id);
   }
 
   // ============================ UPDATE PROPERTY ============================
@@ -65,7 +65,7 @@ export class PropertiesController {
   @ApiBearerAuth(AuthorizationHeader.BEARER)
   @ApiOperation({ summary: 'Delete Property' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.propertiesService.remove(+id);
+  remove(@Param('id') id: string, @LoggedInUser() userId: string) {
+    return this.propertiesService.remove(id, userId);
   }
 }

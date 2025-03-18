@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FilterQueryT } from 'src/types/types/filter-query';
+import { updateResponse } from 'src/utils/update-response';
+import { User, UserDocument } from '../auth/entity/register.entity';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { FilterDto } from './dto/filter.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { Property, PropertyDocument } from './entities/property.entity';
-import { User, UserDocument } from '../auth/entity/register.entity';
 
 @Injectable()
 export class PropertiesService {
@@ -78,17 +79,43 @@ export class PropertiesService {
   }
 
   // ================ Find a property by id ================
-  findOne(id: number) {
-    return `This action returns a #${id} property`;
+  async findOne(id: string) {
+    const property = await this.PropertyModel.findById(id).exec();
+
+    if (!property) throw new NotFoundException('Property not found');
+
+    const user = await this.userModel.findById(property.ownerId).exec();
+    const updatedUser = updateResponse({ user });
+
+    const data = {
+      property: property.toObject(),
+      user: updatedUser.updatedUser,
+    };
+
+    return { data: data };
   }
 
   // ================ Update a property ================
   update(id: number, updatePropertyDto: UpdatePropertyDto) {
-    return `This action updates a #${id} property`;
+    return `action updates a #${id} property`;
   }
 
-  // ================ Remove a property ================
-  remove(id: number) {
-    return `This action removes a #${id} property`;
+  // ================ Delete a property ================
+  async remove(id: string, userId: string) {
+    const property = await this.PropertyModel.findById(id);
+    if (!property) throw new NotFoundException('Property not found');
+
+    if (property.ownerId.toString() !== userId) {
+      throw new NotFoundException(
+        'You are not authorized to delete this property',
+      );
+    }
+
+    const deletedProperty = await this.PropertyModel.findByIdAndDelete(id);
+
+    return {
+      property: deletedProperty,
+      message: 'Property deleted successfully',
+    };
   }
 }
