@@ -1,16 +1,21 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
 import { AuthModule } from './api/auth/auth.module';
-import { UserModule } from './api/user/user.module';
 import { PropertiesModule } from './api/properties/properties.module';
+import { uploadModule } from './api/uplode/upload.module';
+import { UserModule } from './api/user/user.module';
+import { AppController } from './app.controller';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
+    }),
+    MulterModule.register({
+      dest: './uploads',
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -22,6 +27,7 @@ import { PropertiesModule } from './api/properties/properties.module';
     AuthModule,
     UserModule,
     PropertiesModule,
+    uploadModule,
   ],
   providers: [],
   controllers: [AppController],
