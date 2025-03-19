@@ -7,6 +7,7 @@ import { uploadModule } from './api/uplode/upload.module';
 import { UserModule } from './api/user/user.module';
 import { AppController } from './app.controller';
 import { MulterModule } from '@nestjs/platform-express';
+import { ReviewsModule } from './api/reviews/reviews.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MulterModule } from '@nestjs/platform-express';
     UserModule,
     PropertiesModule,
     uploadModule,
+    ReviewsModule,
   ],
   providers: [],
   controllers: [AppController],
