@@ -7,6 +7,7 @@ import { swaggerConfig, themeOptions } from './config/swagger.config';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
 

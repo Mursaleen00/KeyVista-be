@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from './api/auth/auth.module';
+import { ChatsModule } from './api/chats/chats.module';
 import { PropertiesModule } from './api/properties/properties.module';
+import { ReviewsModule } from './api/reviews/reviews.module';
 import { uploadModule } from './api/uplode/upload.module';
 import { UserModule } from './api/user/user.module';
 import { AppController } from './app.controller';
-import { MulterModule } from '@nestjs/platform-express';
-import { ReviewsModule } from './api/reviews/reviews.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ReviewsModule } from './api/reviews/reviews.module';
     PropertiesModule,
     uploadModule,
     ReviewsModule,
+    ChatsModule,
   ],
   providers: [],
   controllers: [AppController],
