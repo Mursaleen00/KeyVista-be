@@ -5,9 +5,10 @@ import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from './api/auth/auth.module';
 import { PropertiesModule } from './api/properties/properties.module';
 import { ReviewsModule } from './api/reviews/reviews.module';
-import { uploadModule } from './api/uplode/upload.module';
+import { uploadModule } from './api/upload/upload.module';
 import { UserModule } from './api/user/user.module';
 import { AppController } from './app.controller';
+import { FavoriteModule } from './api/favorite/favorite.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AppController } from './app.controller';
     PropertiesModule,
     uploadModule,
     ReviewsModule,
+    FavoriteModule,
   ],
   providers: [],
   controllers: [AppController],
