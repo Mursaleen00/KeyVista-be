@@ -6,7 +6,7 @@ import { AuthModule } from './api/auth/auth.module';
 import { FavoriteModule } from './api/favorite/favorite.module';
 import { PropertiesModule } from './api/properties/properties.module';
 import { ReviewsModule } from './api/reviews/reviews.module';
-import { uploadModule } from './api/upload/upload.module';
+import { UploadModule } from './api/upload/upload.module';
 import { UserModule } from './api/user/user.module';
 import { AppController } from './app.controller';
 
@@ -31,7 +31,7 @@ import { AppController } from './app.controller';
     UserModule,
     ReviewsModule,
     FavoriteModule,
-    uploadModule,
+    UploadModule,
   ],
   providers: [],
   controllers: [AppController],

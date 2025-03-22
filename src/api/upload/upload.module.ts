@@ -9,4 +9,4 @@ import { CloudinaryProvider } from 'src/config/cloudinary.config';
   providers: [uploadService, JwtService, CloudinaryProvider],
   exports: [CloudinaryProvider, uploadService],
 })
-export class uploadModule {}
+export class UploadModule {}
