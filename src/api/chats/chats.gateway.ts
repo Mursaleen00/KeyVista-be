@@ -46,7 +46,7 @@ export class ChatsGateway {
     }
 
     // Broadcast the message to all participants in the chat
-    chat.participants.forEach((participantId: any) => {
+    chat.participants.forEach((participantId) => {
       this.server.to(participantId.toString()).emit('receiveMessage', {
         chatId,
         senderId: userId,
