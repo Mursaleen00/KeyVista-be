@@ -2,8 +2,8 @@ import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
-import { AuthorizationHeader } from 'src/types/enum/common.type';
 import { FavoriteService } from './favorite.service';
+import { AuthorizationHeader } from 'src/types/enum/authorization.enum';
 
 @Controller('favorite')
 export class FavoriteController {

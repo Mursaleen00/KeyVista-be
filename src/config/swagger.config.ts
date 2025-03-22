@@ -1,5 +1,5 @@
 import { DocumentBuilder } from '@nestjs/swagger';
-import { IAuthorizationHeader } from 'src/types/enum/common.type';
+import { IAuthorizationHeader } from 'src/types/enum/authorization.enum';
 import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes';
 
 const swaggerConfig = new DocumentBuilder()

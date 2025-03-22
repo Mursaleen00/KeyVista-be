@@ -6,4 +6,7 @@ export enum PropertyKind {
   ROOM = 'room',
   HOSTEL = 'hotel',
   COMMERCIAL = 'commercial',
+  APARTMENT = 'apartment',
+  OFFICE = 'office',
+  STUDENT_ACCOMMODATION = 'student_accommodation',
 }

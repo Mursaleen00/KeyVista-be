@@ -14,7 +14,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
-import { AuthorizationHeader } from 'src/types/enum/common.type';
+import { AuthorizationHeader } from 'src/types/enum/authorization.enum';
 import { uploadService } from './upload.service';
 
 @Controller('upload')
