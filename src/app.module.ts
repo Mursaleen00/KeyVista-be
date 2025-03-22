@@ -31,7 +31,7 @@ import { AppController } from './app.controller';
     PropertiesModule,
     uploadModule,
     ReviewsModule,
-    ChatsModule,
+    // ChatsModule,
   ],
   providers: [],
   controllers: [AppController],
