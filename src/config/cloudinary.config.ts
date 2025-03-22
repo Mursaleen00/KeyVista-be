@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary';
 cloudinary.config({});
 
 import { v2 } from 'cloudinary';
-import { CLOUDINARY } from 'src/constant/cloudnary.constant';
+import { CLOUDINARY } from 'src/constant/cloudinary.constant';
 
 export const CloudinaryProvider = {
   provide: CLOUDINARY,

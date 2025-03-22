@@ -3,12 +3,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from './api/auth/auth.module';
+import { FavoriteModule } from './api/favorite/favorite.module';
 import { PropertiesModule } from './api/properties/properties.module';
 import { ReviewsModule } from './api/reviews/reviews.module';
 import { uploadModule } from './api/upload/upload.module';
 import { UserModule } from './api/user/user.module';
 import { AppController } from './app.controller';
-import { FavoriteModule } from './api/favorite/favorite.module';
 
 @Module({
   imports: [
@@ -27,11 +27,11 @@ import { FavoriteModule } from './api/favorite/favorite.module';
       inject: [ConfigService],
     }),
     AuthModule,
-    UserModule,
     PropertiesModule,
-    uploadModule,
+    UserModule,
     ReviewsModule,
     FavoriteModule,
+    uploadModule,
   ],
   providers: [],
   controllers: [AppController],
