@@ -14,9 +14,9 @@ import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
 import { AuthorizationHeader } from 'src/types/enum/authorization.enum';
 import { CreatePropertyDto } from './dto/create-property.dto';
+import { FilterDto } from './dto/filter.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { PropertiesService } from './properties.service';
-import { FilterDto } from './dto/filter.dto';
 
 @Controller('properties')
 export class PropertiesController {
@@ -39,6 +39,15 @@ export class PropertiesController {
   @Get()
   findAll(@Query() filters: FilterDto) {
     return this.propertiesService.findAll(filters);
+  }
+
+  // ============================ GET MY PROPERTIES ============================
+  @UseGuards(AuthenticationGuard)
+  @ApiBearerAuth(AuthorizationHeader.BEARER)
+  @ApiOperation({ summary: 'Get My Properties' })
+  @Get('my-properties')
+  myProperties(@LoggedInUser() id: string) {
+    return this.propertiesService.findMyProperties(id);
   }
 
   // ============================ GET PROPERTY BY ID ============================
