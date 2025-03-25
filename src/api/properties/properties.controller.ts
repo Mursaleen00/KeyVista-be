@@ -4,15 +4,17 @@ import {
   Delete,
   Get,
   Param,
+  ParseEnumPipe,
   Patch,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
 import { AuthorizationHeader } from 'src/types/enum/authorization.enum';
+import { PropertyPurpose } from 'src/types/enum/property-purpose';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { FilterDto } from './dto/filter.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
@@ -48,6 +50,20 @@ export class PropertiesController {
   @Get('my-properties')
   myProperties(@LoggedInUser() id: string) {
     return this.propertiesService.findMyProperties(id);
+  }
+
+  // ============================ GET ALL MAP POINTS ============================
+  @ApiQuery({
+    name: 'type',
+    enum: PropertyPurpose,
+    default: PropertyPurpose.RENT,
+  })
+  @ApiOperation({ summary: 'Get All Maps Points' })
+  @Get('map-points-with-properties/get')
+  findAllWithMap(
+    @Query('type', new ParseEnumPipe(PropertyPurpose)) type: PropertyPurpose,
+  ) {
+    return this.propertiesService.findMapPoints(type);
   }
 
   // ============================ GET PROPERTY BY ID ============================

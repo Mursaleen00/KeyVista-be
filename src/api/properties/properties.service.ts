@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { PropertyPurpose } from 'src/types/enum/property-purpose';
 import { FilterQueryT } from 'src/types/types/filter-query';
 import { updateResponse } from 'src/utils/update-response';
 import { User, UserDocument } from '../auth/entity/register.entity';
@@ -82,6 +83,24 @@ export class PropertiesService {
   async findMyProperties(userId: string) {
     const properties = await this.PropertyModel.find({ ownerId: userId });
     return { properties: properties ?? [] };
+  }
+
+  // ================ Find my all properties ================
+  async findMapPoints(type: PropertyPurpose) {
+    const properties = await this.PropertyModel.find({ purpose: type });
+
+    if (!properties) return { points: [], properties: [] };
+
+    const points = properties.map((property) => ({
+      lat: property?.position?.lat ?? 0,
+      lng: property?.position?.lng ?? 0,
+      name: property?.name,
+      id: property?._id,
+      price: property?.price,
+      image: property?.thumbnail,
+    }));
+
+    return { points, properties };
   }
 
   // ================ Find a property by id ================
