@@ -3,6 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import { PropertyCondition } from 'src/types/enum/property-condition';
 import { PropertyKind } from 'src/types/enum/property-kind';
 import { PropertyPurpose } from 'src/types/enum/property-purpose';
+import { Position } from 'src/types/types/location';
 
 @Schema({ timestamps: true })
 export class Property {
@@ -11,10 +12,13 @@ export class Property {
   city: string;
 
   @Prop({ required: true })
-  area: string;
+  country: string;
 
   @Prop({ required: true })
-  country: string;
+  completeLocation: string;
+
+  @Prop({ required: true, type: Object })
+  position: Position;
 
   // Property Details
   @Prop({

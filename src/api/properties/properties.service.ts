@@ -78,6 +78,7 @@ export class PropertiesService {
     };
   }
 
+  // ================ Find my all properties ================
   async findMyProperties(userId: string) {
     const properties = await this.PropertyModel.find({ ownerId: userId });
     return { properties: properties ?? [] };

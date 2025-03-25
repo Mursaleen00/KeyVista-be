@@ -17,10 +17,28 @@ export class CreatePropertyDto {
   @IsNotEmpty()
   city: string;
 
-  @ApiProperty({ example: 'DHA Phase 6', name: 'area' })
+  @ApiProperty({
+    example: 'house no 202, Sector 16/G, Block A, Liyaqat Chok, Sindh',
+    name: 'completeLocation',
+  })
   @IsString()
   @IsNotEmpty()
-  area: string;
+  completeLocation: string;
+
+  @ApiProperty({
+    type: 'object',
+    name: 'position',
+    example: { lat: 1, lng: 1 },
+    additionalProperties: false,
+    properties: {
+      lat: { type: 'number' },
+      lng: { type: 'number' },
+    },
+  })
+  position: {
+    lat: number;
+    lng: number;
+  };
 
   @ApiProperty({ example: 'Pakistan', name: 'country' })
   @IsString()
