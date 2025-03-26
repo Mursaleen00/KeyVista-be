@@ -10,6 +10,7 @@ import { ReviewsModule } from './api/reviews/reviews.module';
 import { UploadModule } from './api/upload/upload.module';
 import { UserModule } from './api/user/user.module';
 import { AppController } from './app.controller';
+import { ChatsModule } from './api/chats/chats.module';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { AppController } from './app.controller';
     PropertiesModule,
     UserModule,
     ReviewsModule,
-    // ChatsModule,
+    ChatsModule,
     NotificationModule,
     FavoriteModule,
     UploadModule,
