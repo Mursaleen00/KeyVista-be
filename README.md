@@ -45,6 +45,43 @@ Check out the live demo of the project [Key-Vista](https://keyvista-be-productio
 - **Swagger UI**: Interactive API documentation
 - **TypeScript**: For type safety and better developer experience
 
+## API Endpoints
+
+Below is a list of key endpoints available in the Key-Vista API, along with short summaries:
+```
+| Method | Endpoint                                     | Summary                                      |
+|--------|----------------------------------------------|----------------------------------------------|
+| POST   | `/auth/register`                             | Registers a new user with email and password |
+| POST   | `/auth/login`                                | Authenticates a user and returns a JWT token |
+| POST   | `/auth/verify-otp`                           | Verifies user with an OTP                    |
+| POST   | `/auth/resend-otp`                           | Resends an OTP to the user                   |
+| POST   | `/auth/forgot-password`                      | Initiates password reset process             |
+| POST   | `/auth/reset-password`                       | Resets user password with a valid token      |
+| GET    | `/chats/chat-heads`                          | Retrieves all chat heads                     |
+| POST   | `/chats`                                     | Creates a new chat or chat head              |
+| GET    | `/favorite/`                                 | Retrieves all user’s favorite properties     |
+| PATCH  | `/favorite/`                                 | Adds or removes a property from favorites    |
+| GET    | `/notification/`                             | Retrieves all user notifications             |
+| GET    | `/notification/read`                         | Marks all notifications as read              |
+| GET    | `/notification/notify`                       | Notifies user about unread notifications     |
+| POST   | `/upload`                                    | Uploads an image to Cloudinary               |
+| GET    | `/reviews/ratings/:id`                       | Retrieves ratings for a property by ID       |
+| GET    | `/reviews/:id`                               | Retrieves reviews for a property by ID       |
+| POST   | `/reviews`                                   | Creates a rating and review for a property   |
+| POST   | `/properties`                                | Creates a new property listing               |
+| GET    | `/properties`                                | Retrieves all properties                     |
+| GET    | `/properties/my-properties`                  | Retrieves properties owned by the user       |
+| GET    | `/properties/map-points-with-properties/get` | Retrieves all map points with properties     |
+| GET    | `/properties/:id`                            | Retrieves a property by ID                   |
+| PATCH  | `/properties/:id`                            | Updates a property by ID                     |
+| DELETE | `/properties/:id`                            | Deletes a property by ID                     |
+| GET    | `/user/me`                                   | Retrieves the current user’s profile         |
+| PATCH  | `/user/update`                               | Updates the current user’s profile           |
+| GET    | `/user/hange-password`                       | Changes the current user’s password          |
+```
+
+**Note**: Endpoints requiring authentication use a JWT token in the `Authorization` header (Bearer token). Visit `/api` in Swagger UI for detailed request/response schemas. The `/user/hange-password` endpoint might be a typo; it’s likely intended as `/user/change-password`.
+
 ## Project Structure
 Here’s the structure of the Key-Vista project:
 ```
