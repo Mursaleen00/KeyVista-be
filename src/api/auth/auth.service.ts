@@ -10,7 +10,6 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
 
-import isValidEmail from '../../utils/email-validation';
 import generateOtp from 'src/utils/otp-generator';
 
 import { UserResponse } from 'src/types/types/user-response';
@@ -27,6 +26,15 @@ export class AuthService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
     private readonly emailService: EmailService,
   ) {}
+
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(email);
+
+    if (!isValid) throw new BadRequestException('Invalid email format');
+
+    return true;
+  }
 
   // ============================ Register ============================
   async register({
@@ -54,7 +62,7 @@ export class AuthService {
     )
       throw new BadRequestException('All fields are required');
 
-    isValidEmail(email);
+    this.isValidEmail(email);
 
     if (password.length < 6)
       throw new BadRequestException('Password must be at least 6 characters');
@@ -149,7 +157,7 @@ export class AuthService {
 
   // ============================ Forgot Password ============================
   async forgotPassword(email: string): Promise<{ message: string }> {
-    isValidEmail(email);
+    this.isValidEmail(email);
 
     const user: UserDocument | null = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException('User not found');
@@ -166,7 +174,7 @@ export class AuthService {
     email,
     password,
   }: ResetPasswordDto): Promise<{ message: string }> {
-    isValidEmail(email);
+    this.isValidEmail(email);
 
     const user: UserDocument | null = await this.userModel.findOne({ email });
     if (!user) throw new UnauthorizedException('User not found');
@@ -190,7 +198,7 @@ export class AuthService {
 
   //  ============================ Send OTP ============================
   private async sendOtp(email: string): Promise<void> {
-    isValidEmail(email);
+    this.isValidEmail(email);
 
     const user: UserDocument | null = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException('User not found');
