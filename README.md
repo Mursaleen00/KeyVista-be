@@ -17,26 +17,26 @@ Check out the live demo of the project [Key-Vista](https://keyvista-be-productio
 
 ## Features
 1. User Authentication
-- - Login
-- - Register
-- - OTP (One-Time Password)
-- - Password reset
+ - Login
+ - Register
+ - OTP (One-Time Password)
+ - Password reset
 2. Property Management
-- - Create properties
-- - Update properties
-- - Filter properties
+ - Create properties
+ - Update properties
+ - Filter properties
 3. Reviews System
-- - Create reviews
+ - Create reviews
 4. Favorites System
-- - Add to favorites
+ - Add to favorites
 5. Chat Functionality
-- - Create and manage chats
+ - Create and manage chats
 6. File Uploads
-- - Integration with Cloudinary for media storage
+ - Integration with Cloudinary for media storage
 7. Notifications
-- - Manage notifications
+ - Manage notifications
 8. API Documentation
-- - Interactive API documentation via Swagger UI
+ - Interactive API documentation via Swagger UI
 
 ## Technologies
 - **Nest.js**: A TypeScript-based Node.js framework
