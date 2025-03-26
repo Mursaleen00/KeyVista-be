@@ -5,6 +5,6 @@ export class AppController {
   constructor() {}
   @Get()
   getHello(): string {
-    return 'Hello World! Go to /api for APIs';
+    return 'Hello World! Go to /api to see the API';
   }
 }

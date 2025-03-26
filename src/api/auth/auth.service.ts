@@ -10,7 +10,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
 
-import isValidEmail from 'src/utils/email-validation';
+import isValidEmail from '../../utils/email-validation';
 import generateOtp from 'src/utils/otp-generator';
 
 import { UserResponse } from 'src/types/types/user-response';
