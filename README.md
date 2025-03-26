@@ -1,99 +1,157 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Key-Vista
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+**Key-Vista** is a learning project built with [Nest.js](https://nestjs.com/), a progressive Node.js framework. This project serves as a playground to explore Nest.js features, integrating MongoDB for data persistence, Cloudinary for media storage, and Swagger UI for API documentation. It includes modules for authentication, properties, reviews, chats, and more, designed to mimic a real-world application.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Live Demo
+Check out the live demo of the project [Key-Vista](https://keyvista-be-production.up.railway.app/api).
 
-## Description
+## Table of Contents
+- [Features](#features)
+- [Technologies](#technologies)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Running the Project](#running-the-project)
+- [API Documentation](#api-documentation)
+- [Deployment](#deployment)
+- [License](#license)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
+1. User Authentication
+- - Login
+- - Register
+- - OTP (One-Time Password)
+- - Password reset
+2. Property Management
+- - Create properties
+- - Update properties
+- - Filter properties
+3. Reviews System
+- - Create reviews
+4. Favorites System
+- - Add to favorites
+5. Chat Functionality
+- - Create and manage chats
+6. File Uploads
+- - Integration with Cloudinary for media storage
+7. Notifications
+- - Manage notifications
+8. API Documentation
+- - Interactive API documentation via Swagger UI
 
-## Project setup
+## Technologies
+- **Nest.js**: A TypeScript-based Node.js framework
+- **MongoDB**: NoSQL database for storing data
+- **Cloudinary**: Cloud-based media storage for images and files
+- **Swagger UI**: Interactive API documentation
+- **TypeScript**: For type safety and better developer experience
 
-```bash
-$ pnpm install
+## Project Structure
+Here’s the structure of the Key-Vista project:
+```
+.env
+.gitignore
+.prettierrc
+eslint.config.mjs
+nest-cli.json
+package.json
+README.md
+tsconfig.build.json
+tsconfig.json
+vercel.json
+src/
+├── app.controller.ts     # Root controller
+├── app.module.ts         # Root module
+├── main.ts               # Local development entry point
+├── api/                  # Feature modules
+│   ├── auth/
+│   │   ├── auth.controller.ts
+│   │   ├── auth.module.ts
+│   │   ├── auth.service.ts
+│   │   ├── dtos/
+│   │   │   ├── login.dto.ts
+│   │   │   ├── otp.dto.ts
+│   │   │   ├── register.dto.ts
+│   │   │   ├── resend-otp.dto.ts
+│   │   │   └── reset-password.dto.ts
+│   │   ├── entities/
+│   │   │   └── register.entity.ts
+│   │   └── services/
+│   │       └── email.service.ts
+│   ├── chats/
+│   │   ├── chats.controller.ts
+│   │   ├── chats.module.ts
+│   │   ├── chats.service.ts
+│   │   ├── dtos/
+│   │   │   └── create.dto.ts
+│   │   └── entities/
+│   │       └── chats.entities.ts
+│   ├── favorite/
+│   │   ├── favorite.controller.ts
+│   │   ├── favorite.module.ts
+│   │   ├── favorite.service.ts
+│   │   └── entities/
+│   │       └── favorite.entities.ts
+│   ├── notification/
+│   │   ├── notification.controller.ts
+│   │   ├── notification.module.ts
+│   │   ├── notification.service.ts
+│   │   └── entities/
+│   │       └── notification.entities.ts
+│   ├── properties/
+│   │   ├── properties.controller.ts
+│   │   ├── properties.module.ts
+│   │   ├── properties.service.ts
+│   │   ├── dtos/
+│   │   │   ├── create-property.dto.ts
+│   │   │   ├── filter.dto.ts
+│   │   │   └── update-property.dto.ts
+│   │   └── entities/
+│   │       └── property.entity.ts
+│   ├── reviews/
+│   │   ├── reviews.controller.ts
+│   │   ├── reviews.module.ts
+│   │   ├── reviews.service.ts
+│   │   ├── dtos/
+│   │   │   └── create-reviews.dto.ts
+│   │   └── entities/
+│   │       └── reviews.entity.ts
+│   ├── upload/
+│   │   ├── upload.controller.ts
+│   │   ├── upload.module.ts
+│   │   └── upload.service.ts
+│   └── user/
+│       ├── user.controller.ts
+│       ├── user.module.ts
+│       ├── user.service.ts
+│       └── dtos/
+│           ├── change-password.dto.ts
+│           ├── create-user.dto.ts
+│           └── update-user.dto.ts
+├── config/
+│   ├── cloudinary.config.ts  # Cloudinary configuration
+│   └── swagger.config.ts     # Swagger UI configuration
+├── constant/
+│   └── cloudinary.constant.ts
+├── decorators/
+│   └── loggedInuser.decorator.ts
+├── guards/
+│   └── jwt-authentication.guard.ts
+├── strategies/
+│   └── jwt-strategy.ts
+├── types/
+│   ├── enum/
+│   │   ├── authorization.enum.ts
+│   │   ├── property-condition.ts
+│   │   ├── property-kind.ts
+│   │   └── property-purpose.ts
+│   └── types/
+│       ├── filter-query.ts
+│       ├── jwt.type.ts
+│       ├── location.ts
+│       └── user-response.ts
+└── utils/
+├── email-validation.ts
+├── otp-generator.ts
+└── update-response.ts
 ```
 
-## Compile and run the project
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ pnpm install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
