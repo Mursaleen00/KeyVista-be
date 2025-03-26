@@ -5,7 +5,9 @@ import { AppModule } from './app.module';
 import { swaggerConfig, themeOptions } from './config/swagger.config';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn'],
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 
