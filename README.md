@@ -16,26 +16,26 @@ Check out the live demo of the project [Key-Vista](https://keyvista-be-productio
 - [License](#license)
 
 ## Features
-1. User Authentication
+1. **User Authentication**
  - Login
  - Register
  - OTP (One-Time Password)
  - Password reset
-2. Property Management
+2. **Property Management**
  - Create properties
  - Update properties
  - Filter properties
-3. Reviews System
+3. **Reviews System**
  - Create reviews
-4. Favorites System
+4. **Favorites System**
  - Add to favorites
-5. Chat Functionality
+5. **Chat Functionality**
  - Create and manage chats
-6. File Uploads
+6. **File Uploads**
  - Integration with Cloudinary for media storage
-7. Notifications
+7. **Notifications**
  - Manage notifications
-8. API Documentation
+8. **API Documentation**
  - Interactive API documentation via Swagger UI
 
 ## Technologies
