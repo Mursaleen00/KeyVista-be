@@ -2,18 +2,19 @@
 
 **Key-Vista** is a learning project built with [Nest.js](https://nestjs.com/), a progressive Node.js framework. This project serves as a playground to explore Nest.js features, integrating MongoDB for data persistence, Cloudinary for media storage, and Swagger UI for API documentation. It includes modules for authentication, properties, reviews, chats, and more, designed to mimic a real-world application.
 
-## Live Demo
-Check out the live demo of the project [Key-Vista](https://keyvista-be-production.up.railway.app/api).
-
 ## Table of Contents
+- [Live Demo](#live-demo)
 - [Features](#features)
 - [Technologies](#technologies)
+- [API Endpoints](#api-endpoints)
 - [Project Structure](#project-structure)
-- [Installation](#installation)
 - [Running the Project](#running-the-project)
 - [API Documentation](#api-documentation)
 - [Deployment](#deployment)
 - [License](#license)
+
+## Live Demo
+Check out the live demo of the project [Key-Vista](https://keyvista-be-production.up.railway.app/api).
 
 ## Features
 1. **User Authentication**
