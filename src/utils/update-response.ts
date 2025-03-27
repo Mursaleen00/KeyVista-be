@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { UserDocument } from 'src/api/auth/entity/register.entity';
+import { UserDocument } from 'src/schemas/register.schema';
 import { UserResponse } from 'src/types/types/user-response';
 
 export const updateResponse = ({

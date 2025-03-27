@@ -1,5 +1,5 @@
 import { FilterQuery } from 'mongoose';
-import { Property } from 'src/api/properties/entities/property.entity';
+import { Property } from 'src/schemas/property.schema';
 import { PropertyKind } from 'src/types/enum/property-kind';
 import { PropertyPurpose } from 'src/types/enum/property-purpose';
 

@@ -1,8 +1,8 @@
 {
-  "name": "real-state",
+  "name": "key-vista",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "This is a back-end project created with nest.js",
+  "author": "mursaleen00",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "validate": "npm format && npm build"
+    "validate": "yarn format && yarn build"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

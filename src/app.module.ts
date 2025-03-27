@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
-import { AuthModule } from './api/auth/auth.module';
-import { ChatsModule } from './api/chats/chats.module';
-import { FavoriteModule } from './api/favorite/favorite.module';
-import { NotificationModule } from './api/notification/notification.module';
-import { PropertiesModule } from './api/properties/properties.module';
-import { ReviewsModule } from './api/reviews/reviews.module';
-import { UploadModule } from './api/upload/upload.module';
-import { UserModule } from './api/user/user.module';
+import { AuthModule } from './module/auth/auth.module';
+import { ChatsModule } from './module/chats/chats.module';
+import { FavoriteModule } from './module/favorite/favorite.module';
+import { NotificationModule } from './module/notification/notification.module';
+import { PropertiesModule } from './module/properties/properties.module';
+import { ReviewsModule } from './module/reviews/reviews.module';
+import { UploadModule } from './module/upload/upload.module';
+import { UserModule } from './module/user/user.module';
 
 @Module({
   imports: [
