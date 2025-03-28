@@ -14,8 +14,8 @@ Check out the live demo of the project [Key-Vista](https://keyvista-be-productio
 
 ## Features
 1. **User Authentication**
-  - Login
-  - Register
+  -- Login
+    - Register
   - OTP (One-Time Password)
   - Password reset
 2. **Property Management**
