@@ -8,10 +8,6 @@
 - [Technologies](#technologies)
 - [API Endpoints](#api-endpoints)
 - [Project Structure](#project-structure)
-- [Running the Project](#running-the-project)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [License](#license)
 
 ## Live Demo
 Check out the live demo of the project [Key-Vista](https://keyvista-be-production.up.railway.app/api).
@@ -78,10 +74,10 @@ Below is a list of key endpoints available in the Key-Vista API, along with shor
 | DELETE | `/properties/:id`                            | Deletes a property by ID                     |
 | GET    | `/user/me`                                   | Retrieves the current user’s profile         |
 | PATCH  | `/user/update`                               | Updates the current user’s profile           |
-| GET    | `/user/hange-password`                       | Changes the current user’s password          |
+| GET    | `/user/change-password`                       | Changes the current user’s password          |
 ```
 
-**Note**: Endpoints requiring authentication use a JWT token in the `Authorization` header (Bearer token). Visit `/api` in Swagger UI for detailed request/response schemas. The `/user/hange-password` endpoint might be a typo; it’s likely intended as `/user/change-password`.
+**Note**: Endpoints requiring authentication use a JWT token in the `Authorization` header (Bearer token). Visit `/api` in Swagger UI for detailed request/response schemas.
 
 ## Project Structure
 Here’s the structure of the Key-Vista project:
@@ -100,7 +96,7 @@ src/
 ├── app.controller.ts     # Root controller
 ├── app.module.ts         # Root module
 ├── main.ts               # Local development entry point
-├── api/                  # Feature modules
+├── module/               # Feature modules
 │   ├── auth/
 │   │   ├── auth.controller.ts
 │   │   ├── auth.module.ts
@@ -168,8 +164,6 @@ src/
 ├── config/
 │   ├── cloudinary.config.ts  # Cloudinary configuration
 │   └── swagger.config.ts     # Swagger UI configuration
-├── constant/
-│   └── cloudinary.constant.ts
 ├── decorators/
 │   └── loggedInuser.decorator.ts
 ├── guards/
@@ -188,8 +182,7 @@ src/
 │       ├── location.ts
 │       └── user-response.ts
 └── utils/
-├── email-validation.ts
-├── otp-generator.ts
-└── update-response.ts
+     ├── otp-generator.ts
+     └── update-response.ts
 ```
 
