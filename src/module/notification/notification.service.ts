@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -19,7 +19,7 @@ export class NotificationService {
       const notifications = await this.notificationsModel.find({ userId });
       return { notifications };
     } catch (error) {
-      console.log('🚀 ~ NotificationService ~ findAll ~ error:', error);
+      throw new BadRequestException(error.message);
     }
   }
 
@@ -32,7 +32,7 @@ export class NotificationService {
       );
       return { message: 'Notification read successfully' };
     } catch (error) {
-      console.log('🚀 ~ NotificationService ~ read ~ error:', error);
+      throw new BadRequestException(error.message);
     }
   }
 
@@ -48,7 +48,7 @@ export class NotificationService {
 
       return { notify };
     } catch (error) {
-      console.log('🚀 ~ NotificationService ~ notify ~ error:', error);
+      throw new BadRequestException(error.message);
     }
   }
 }

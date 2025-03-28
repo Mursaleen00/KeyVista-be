@@ -16,57 +16,69 @@ export class UserService {
   ) {}
 
   async getMe(id: string): Promise<UserResponse> {
-    const user = await this.userModel.findById(id);
-    const { updatedUser } = updateResponse({ user });
+    try {
+      const user = await this.userModel.findById(id);
+      const { updatedUser } = updateResponse({ user });
 
-    return updatedUser;
+      return updatedUser;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async update(
     id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<{ message: string; user: UserResponse }> {
-    const user = await this.userModel.findByIdAndUpdate(id, {
-      ...updateUserDto,
-    });
+    try {
+      const user = await this.userModel.findByIdAndUpdate(id, {
+        ...updateUserDto,
+      });
 
-    const { updatedUser } = updateResponse({ user });
+      const { updatedUser } = updateResponse({ user });
 
-    return {
-      message: 'Profile updated successfully',
-      user: updatedUser,
-    };
+      return {
+        message: 'Profile updated successfully',
+        user: updatedUser,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async changePassword(
     id: string,
     changePasswordDto: ChangePasswordDto,
   ): Promise<{ message: string; user: UserResponse }> {
-    const user = await this.userModel.findById(id);
+    try {
+      const user = await this.userModel.findById(id);
 
-    const isMatch = await bcrypt?.compare(
-      changePasswordDto.oldPassword,
-      user?.password || '',
-    );
-
-    if (!isMatch) throw new BadRequestException('Old password is incorrect');
-
-    if (changePasswordDto.password == changePasswordDto.oldPassword) {
-      throw new BadRequestException(
-        'New password cannot be the same as the old password',
+      const isMatch = await bcrypt?.compare(
+        changePasswordDto.oldPassword,
+        user?.password || '',
       );
+
+      if (!isMatch) throw new BadRequestException('Old password is incorrect');
+
+      if (changePasswordDto.password == changePasswordDto.oldPassword) {
+        throw new BadRequestException(
+          'New password cannot be the same as the old password',
+        );
+      }
+
+      const hashedPassword = await bcrypt.hash(changePasswordDto.password, 10);
+
+      await this.userModel.updateOne({ _id: id }, { password: hashedPassword });
+
+      const { updatedUser } = updateResponse({ user });
+
+      return {
+        message: 'Password changed successfully',
+        user: updatedUser,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-
-    const hashedPassword = await bcrypt.hash(changePasswordDto.password, 10);
-
-    await this.userModel.updateOne({ _id: id }, { password: hashedPassword });
-
-    const { updatedUser } = updateResponse({ user });
-
-    return {
-      message: 'Password changed successfully',
-      user: updatedUser,
-    };
   }
 
   fineUserByEmail = async (email: string): Promise<UserDocument | null> => {

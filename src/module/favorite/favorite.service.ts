@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Property, PropertyDocument } from '../../schemas/property.schema';
 import { Favorite, FavoriteDocument } from '../../schemas/favorite.schema';
+import { Property, PropertyDocument } from '../../schemas/property.schema';
 
 @Injectable()
 export class FavoriteService {
@@ -26,7 +26,7 @@ export class FavoriteService {
 
       return { properties: properties ?? [] };
     } catch (error) {
-      console.log('🚀 ~ FavoriteService ~ findAll ~ error:', error);
+      throw new BadRequestException(error.message);
     }
   }
 
@@ -64,7 +64,7 @@ export class FavoriteService {
         return { message: 'Property already in favorite', favorite };
       }
     } catch (error) {
-      console.log('🚀 ~ FavoriteService ~ error:', error);
+      throw new BadRequestException(error.message);
     }
   }
 }

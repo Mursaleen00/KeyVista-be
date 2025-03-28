@@ -29,18 +29,13 @@ export class AuthService {
 
   // ============================ Register ============================
   async register({
-    city,
     email,
-    country,
-    fullName,
     password,
-    agreeWithPT,
-    phoneNumber,
-    profilePicture,
+    ...res
   }: RegisterDto): Promise<UserResponse> {
     try {
       const already: UserDocument | null = await this.userModel.findOne({
-        email,
+        res,
       });
 
       if (already) throw new ConflictException('User already exists');
@@ -50,13 +45,7 @@ export class AuthService {
       const hashedPassword: string = await bcrypt?.hash(password, 10);
 
       const newUser: UserDocument = await this.userModel.create({
-        city,
-        email,
-        country,
-        fullName,
-        phoneNumber,
-        agreeWithPT,
-        profilePicture,
+        ...res,
         isVerified: false,
         password: hashedPassword,
         otp,

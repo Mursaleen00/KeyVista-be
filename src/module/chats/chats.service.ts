@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -20,82 +21,93 @@ export class ChatsService {
     @InjectModel(Notification.name)
     private readonly NotificationModel: Model<NotificationDocument>,
   ) {}
+
+  // ========================= Get All Chat Heads ========================
   async getAllChatHeads(userId: string) {
-    const chats = await this.ChatsModel.findOne({ userId });
-    if (!chats) return { chatHeads: [] };
-    return { chatHeads: chats?.chatHeads };
+    try {
+      const chats = await this.ChatsModel.findOne({ userId });
+      if (!chats) return { chatHeads: [] };
+      return { chatHeads: chats?.chatHeads };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
+
   // ========================= Create Chat ========================
   async createChat(userId: string, participantId: string) {
-    const participant = await this.UserModel.findById(participantId);
-    const me = await this.UserModel.findById(userId);
-    if (!participant) throw new NotFoundException('Participant not found');
-    const isUserChats = await this.ChatsModel.findOne({ userId });
-    const isParticipantChat = await this.ChatsModel.findOne({
-      userId: participantId,
-    });
-    if (!isParticipantChat) {
-      await this.ChatsModel.create({
+    try {
+      const participant = await this.UserModel.findById(participantId);
+      const me = await this.UserModel.findById(userId);
+      if (!participant) throw new NotFoundException('Participant not found');
+      const isUserChats = await this.ChatsModel.findOne({ userId });
+      const isParticipantChat = await this.ChatsModel.findOne({
         userId: participantId,
-        chatHeads: [
-          {
-            participantId: userId,
-            name: me?.fullName,
-            profilePicture: me?.profilePicture,
-            lastMessage: '',
-            lastMessageTime: new Date(),
-          },
-        ],
       });
-    }
-    if (!isUserChats) {
-      await this.ChatsModel.create({
-        userId,
-        chatHeads: [
-          {
-            participantId,
-            name: participant.fullName,
-            profilePicture: participant.profilePicture,
-            lastMessage: '',
-            lastMessageTime: new Date(),
-          },
-        ],
+      if (!isParticipantChat) {
+        await this.ChatsModel.create({
+          userId: participantId,
+          chatHeads: [
+            {
+              participantId: userId,
+              name: me?.fullName,
+              profilePicture: me?.profilePicture,
+              lastMessage: '',
+              lastMessageTime: new Date(),
+            },
+          ],
+        });
+      }
+      if (!isUserChats) {
+        await this.ChatsModel.create({
+          userId,
+          chatHeads: [
+            {
+              participantId,
+              name: participant.fullName,
+              profilePicture: participant.profilePicture,
+              lastMessage: '',
+              lastMessageTime: new Date(),
+            },
+          ],
+        });
+      }
+      const findHead1 = isUserChats?.chatHeads.find(
+        (head) => head.participantId === participantId,
+      );
+      const findHead2 = isParticipantChat?.chatHeads.find(
+        (head) => head.participantId === userId,
+      );
+      if (findHead1 || findHead2)
+        throw new ConflictException('Chat already exists');
+      isUserChats?.chatHeads.push({
+        participantId: participantId,
+        name: participant.fullName,
+        profilePicture: participant.profilePicture,
+        lastMessage: '',
+        lastMessageTime: new Date(),
       });
+      isParticipantChat?.chatHeads.push({
+        participantId: userId,
+        name: me?.fullName || '',
+        profilePicture: me?.profilePicture || '/',
+        lastMessage: '',
+        lastMessageTime: new Date(),
+      });
+      await isUserChats?.save();
+      await isParticipantChat?.save();
+      await this.NotificationModel.create({
+        userId: participantId,
+        message: `Send you a message`,
+        sender: {
+          id: userId,
+          name: me?.fullName,
+          profilePicture: me?.profilePicture,
+        },
+        isRead: false,
+      });
+      return { message: 'Chat created successfully' };
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-    const findHead1 = isUserChats?.chatHeads.find(
-      (head) => head.participantId === participantId,
-    );
-    const findHead2 = isParticipantChat?.chatHeads.find(
-      (head) => head.participantId === userId,
-    );
-    if (findHead1 || findHead2)
-      throw new ConflictException('Chat already exists');
-    isUserChats?.chatHeads.push({
-      participantId: participantId,
-      name: participant.fullName,
-      profilePicture: participant.profilePicture,
-      lastMessage: '',
-      lastMessageTime: new Date(),
-    });
-    isParticipantChat?.chatHeads.push({
-      participantId: userId,
-      name: me?.fullName || '',
-      profilePicture: me?.profilePicture || '/',
-      lastMessage: '',
-      lastMessageTime: new Date(),
-    });
-    await isUserChats?.save();
-    await isParticipantChat?.save();
-    await this.NotificationModel.create({
-      userId: participantId,
-      message: `Send you a message`,
-      sender: {
-        id: userId,
-        name: me?.fullName,
-        profilePicture: me?.profilePicture,
-      },
-      isRead: false,
-    });
-    return { message: 'Chat created successfully' };
   }
 }
