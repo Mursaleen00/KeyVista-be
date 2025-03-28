@@ -2,41 +2,38 @@
 
 **Key-Vista** is a learning project built with [Nest.js](https://nestjs.com/), a progressive Node.js framework. This project serves as a playground to explore Nest.js features, integrating MongoDB for data persistence, Cloudinary for media storage, and Swagger UI for API documentation. It includes modules for authentication, properties, reviews, chats, and more, designed to mimic a real-world application.
 
+## Table of Contents
+- [Live Demo](#live-demo)
+- [Features](#features)
+- [Technologies](#technologies)
+- [API Endpoints](#api-endpoints)
+- [Project Structure](#project-structure)
+
 ## Live Demo
 Check out the live demo of the project [Key-Vista](https://keyvista-be-production.up.railway.app/api).
 
-## Table of Contents
-- [Features](#features)
-- [Technologies](#technologies)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Running the Project](#running-the-project)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [License](#license)
-
 ## Features
 1. **User Authentication**
- - Login
- - Register
- - OTP (One-Time Password)
- - Password reset
+    - Login
+    - Register
+    - OTP (One-Time Password)
+    - Password reset
 2. **Property Management**
- - Create properties
- - Update properties
- - Filter properties
+    - Create properties
+    - Update properties
+    - Filter properties
 3. **Reviews System**
- - Create reviews
+    - Create reviews
 4. **Favorites System**
- - Add to favorites
+    - Add to favorites
 5. **Chat Functionality**
- - Create and manage chats
+    - Create and manage chats
 6. **File Uploads**
- - Integration with Cloudinary for media storage
+    - Integration with Cloudinary for media storage
 7. **Notifications**
- - Manage notifications
+    - Manage notifications
 8. **API Documentation**
- - Interactive API documentation via Swagger UI
+    - Interactive API documentation via Swagger UI
 
 ## Technologies
 - **Nest.js**: A TypeScript-based Node.js framework
@@ -77,10 +74,10 @@ Below is a list of key endpoints available in the Key-Vista API, along with shor
 | DELETE | `/properties/:id`                            | Deletes a property by ID                     |
 | GET    | `/user/me`                                   | Retrieves the current user’s profile         |
 | PATCH  | `/user/update`                               | Updates the current user’s profile           |
-| GET    | `/user/hange-password`                       | Changes the current user’s password          |
+| GET    | `/user/change-password`                      | Changes the current user’s password          |
 ```
 
-**Note**: Endpoints requiring authentication use a JWT token in the `Authorization` header (Bearer token). Visit `/api` in Swagger UI for detailed request/response schemas. The `/user/hange-password` endpoint might be a typo; it’s likely intended as `/user/change-password`.
+**Note**: Endpoints requiring authentication use a JWT token in the `Authorization` header (Bearer token). Visit `/api` in Swagger UI for detailed request/response schemas.
 
 ## Project Structure
 Here’s the structure of the Key-Vista project:
@@ -99,7 +96,7 @@ src/
 ├── app.controller.ts     # Root controller
 ├── app.module.ts         # Root module
 ├── main.ts               # Local development entry point
-├── api/                  # Feature modules
+├── module/               # Feature modules
 │   ├── auth/
 │   │   ├── auth.controller.ts
 │   │   ├── auth.module.ts
@@ -167,8 +164,6 @@ src/
 ├── config/
 │   ├── cloudinary.config.ts  # Cloudinary configuration
 │   └── swagger.config.ts     # Swagger UI configuration
-├── constant/
-│   └── cloudinary.constant.ts
 ├── decorators/
 │   └── loggedInuser.decorator.ts
 ├── guards/
@@ -187,8 +182,7 @@ src/
 │       ├── location.ts
 │       └── user-response.ts
 └── utils/
-├── email-validation.ts
-├── otp-generator.ts
-└── update-response.ts
+     ├── otp-generator.ts
+     └── update-response.ts
 ```
 
