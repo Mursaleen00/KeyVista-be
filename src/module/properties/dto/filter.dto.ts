@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { PropertyKind } from 'src/types/enum/property-kind';
-import { PropertyPurpose } from 'src/types/enum/property-purpose';
+import { PropertyKind } from 'src/enum/property-kind';
+import { PropertyPurpose } from 'src/enum/property-purpose';
 
 export class FilterDto {
   @ApiProperty({ name: 'city', required: false })

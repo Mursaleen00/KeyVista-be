@@ -13,7 +13,7 @@ import { Model } from 'mongoose';
 import generateOtp from 'src/utils/otp-generator';
 
 import { User, UserDocument } from 'src/schemas/register.schema';
-import { UserResponse } from 'src/types/types/user-response';
+import { UserResponse } from 'src/types/user-response';
 import { updateResponse } from 'src/utils/update-response';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';

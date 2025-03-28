@@ -9,7 +9,7 @@ import { PassportStrategy } from '@nestjs/passport';
 
 // Passport JWT Imports
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JWT } from 'src/types/types/jwt.type';
+import { JWT } from 'src/types/jwt.type';
 
 // Schema
 import { UserDocument } from 'src/schemas/register.schema';

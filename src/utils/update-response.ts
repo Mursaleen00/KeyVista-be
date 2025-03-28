@@ -1,6 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { UserDocument } from 'src/schemas/register.schema';
-import { UserResponse } from 'src/types/types/user-response';
+import { UserResponse } from 'src/types/user-response';
 
 export const updateResponse = ({
   user,

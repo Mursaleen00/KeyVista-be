@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { PropertyCondition } from 'src/types/enum/property-condition';
-import { PropertyKind } from 'src/types/enum/property-kind';
-import { PropertyPurpose } from 'src/types/enum/property-purpose';
-import { Position } from 'src/types/types/location';
+import { PropertyCondition } from 'src/enum/property-condition';
+import { PropertyKind } from 'src/enum/property-kind';
+import { PropertyPurpose } from 'src/enum/property-purpose';
+import { Position } from 'src/types/location';
 import { BaseSchema } from './base.schema';
 
 @Schema({ timestamps: true })

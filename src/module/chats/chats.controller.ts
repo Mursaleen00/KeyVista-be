@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
-import { AuthorizationHeader } from 'src/types/enum/authorization.enum';
+import { AuthorizationHeader } from 'src/enum/authorization.enum';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create.dto';
 

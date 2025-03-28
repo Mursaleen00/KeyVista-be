@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation } from '@nestjs/swagger';
-import { UserResponse } from 'src/types/types/user-response';
+import { UserResponse } from 'src/types/user-response';
 import { AuthService } from './auth.service';
 import { EmailDto } from './dto/email.dto';
 import { LoginDto } from './dto/login.dto';

@@ -7,9 +7,9 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { PropertyCondition } from 'src/types/enum/property-condition';
-import { PropertyKind } from 'src/types/enum/property-kind';
-import { PropertyPurpose } from 'src/types/enum/property-purpose';
+import { PropertyCondition } from 'src/enum/property-condition';
+import { PropertyKind } from 'src/enum/property-kind';
+import { PropertyPurpose } from 'src/enum/property-purpose';
 
 export class CreatePropertyDto {
   @ApiProperty({ example: 'Karachi', name: 'city' })

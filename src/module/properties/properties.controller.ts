@@ -13,8 +13,8 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
-import { AuthorizationHeader } from 'src/types/enum/authorization.enum';
-import { PropertyPurpose } from 'src/types/enum/property-purpose';
+import { AuthorizationHeader } from 'src/enum/authorization.enum';
+import { PropertyPurpose } from 'src/enum/property-purpose';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { FilterDto } from './dto/filter.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';

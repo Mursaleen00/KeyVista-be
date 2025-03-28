@@ -10,7 +10,7 @@ import {
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { LoggedInUser } from 'src/decorators/loggedInuser.decorator';
 import { AuthenticationGuard } from 'src/guards/jwt-authentication.guard';
-import { AuthorizationHeader } from 'src/types/enum/authorization.enum';
+import { AuthorizationHeader } from 'src/enum/authorization.enum';
 import { CreateReviewsDto } from './dto/create-reviews.dto';
 import { ReviewsService } from './reviews.service';
 

@@ -91,64 +91,57 @@ package.json
 README.md
 tsconfig.build.json
 tsconfig.json
-vercel.json
 src/
-├── app.controller.ts     # Root controller
-├── app.module.ts         # Root module
-├── main.ts               # Local development entry point
-├── module/               # Feature modules
+├── app.module.ts
+├── main.ts
+├── config/
+│   ├── cloudinary.config.ts
+│   └── swagger.config.ts
+├── decorators/
+│   └── loggedInuser.decorator.ts
+├── guards/
+│   └── jwt-authentication.guard.ts
+├── module/
 │   ├── auth/
 │   │   ├── auth.controller.ts
 │   │   ├── auth.module.ts
 │   │   ├── auth.service.ts
-│   │   ├── dtos/
+│   │   ├── dto/
+│   │   │   ├── email.dto.ts
 │   │   │   ├── login.dto.ts
 │   │   │   ├── otp.dto.ts
 │   │   │   ├── register.dto.ts
-│   │   │   ├── resend-otp.dto.ts
 │   │   │   └── reset-password.dto.ts
-│   │   ├── entities/
-│   │   │   └── register.entity.ts
 │   │   └── services/
 │   │       └── email.service.ts
 │   ├── chats/
 │   │   ├── chats.controller.ts
 │   │   ├── chats.module.ts
 │   │   ├── chats.service.ts
-│   │   ├── dtos/
-│   │   │   └── create.dto.ts
-│   │   └── entities/
-│   │       └── chats.entities.ts
+│   │   └── dto/
+│   │       └── create.dto.ts
 │   ├── favorite/
 │   │   ├── favorite.controller.ts
 │   │   ├── favorite.module.ts
 │   │   ├── favorite.service.ts
-│   │   └── entities/
-│   │       └── favorite.entities.ts
 │   ├── notification/
 │   │   ├── notification.controller.ts
 │   │   ├── notification.module.ts
 │   │   ├── notification.service.ts
-│   │   └── entities/
-│   │       └── notification.entities.ts
 │   ├── properties/
 │   │   ├── properties.controller.ts
 │   │   ├── properties.module.ts
 │   │   ├── properties.service.ts
-│   │   ├── dtos/
+│   │   ├── dto/
 │   │   │   ├── create-property.dto.ts
 │   │   │   ├── filter.dto.ts
 │   │   │   └── update-property.dto.ts
-│   │   └── entities/
-│   │       └── property.entity.ts
 │   ├── reviews/
 │   │   ├── reviews.controller.ts
 │   │   ├── reviews.module.ts
 │   │   ├── reviews.service.ts
-│   │   ├── dtos/
-│   │   │   └── create-reviews.dto.ts
-│   │   └── entities/
-│   │       └── reviews.entity.ts
+│   │   └── dto/
+│   │       └── create-reviews.dto.ts
 │   ├── upload/
 │   │   ├── upload.controller.ts
 │   │   ├── upload.module.ts
@@ -157,32 +150,31 @@ src/
 │       ├── user.controller.ts
 │       ├── user.module.ts
 │       ├── user.service.ts
-│       └── dtos/
+│       └── dto/
 │           ├── change-password.dto.ts
-│           ├── create-user.dto.ts
 │           └── update-user.dto.ts
-├── config/
-│   ├── cloudinary.config.ts  # Cloudinary configuration
-│   └── swagger.config.ts     # Swagger UI configuration
-├── decorators/
-│   └── loggedInuser.decorator.ts
-├── guards/
-│   └── jwt-authentication.guard.ts
+├── schemas/
+│   ├── base.schema.ts
+│   ├── chats.schema.ts
+│   ├── favorite.schema.ts
+│   ├── notification.schema.ts
+│   ├── property.schema.ts
+│   ├── register.schema.ts
+│   └── reviews.schema.ts
 ├── strategies/
 │   └── jwt-strategy.ts
 ├── types/
-│   ├── enum/
-│   │   ├── authorization.enum.ts
-│   │   ├── property-condition.ts
-│   │   ├── property-kind.ts
-│   │   └── property-purpose.ts
-│   └── types/
-│       ├── filter-query.ts
-│       ├── jwt.type.ts
-│       ├── location.ts
-│       └── user-response.ts
+│    ├── filter-query.ts
+│    ├── jwt.type.ts
+│    ├── location.ts
+│    └── user-response.ts
+├── enum/
+│    ├── authorization.enum.ts
+│    ├── property-condition.ts
+│    ├── property-kind.ts
+│    └── property-purpose.ts
 └── utils/
-     ├── otp-generator.ts
-     └── update-response.ts
+    ├── otp-generator.ts
+    └── update-response.ts
 ```
 
