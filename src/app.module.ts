@@ -6,6 +6,7 @@ import { AuthModule } from './module/auth/auth.module';
 import { ChatsModule } from './module/chats/chats.module';
 import { FavoriteModule } from './module/favorite/favorite.module';
 import { NotificationModule } from './module/notification/notification.module';
+import { PaymentModule } from './module/payment/payment.module';
 import { PropertiesModule } from './module/properties/properties.module';
 import { ReviewsModule } from './module/reviews/reviews.module';
 import { UploadModule } from './module/upload/upload.module';
@@ -34,6 +35,7 @@ import { UserModule } from './module/user/user.module';
     ChatsModule,
     NotificationModule,
     FavoriteModule,
+    PaymentModule,
     UploadModule,
   ],
   providers: [],

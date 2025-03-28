@@ -47,6 +47,7 @@ export class AuthService {
       const newUser: UserDocument = await this.userModel.create({
         ...res,
         isVerified: false,
+        email,
         password: hashedPassword,
         otp,
       });
