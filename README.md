@@ -74,7 +74,7 @@ Below is a list of key endpoints available in the Key-Vista API, along with shor
 | DELETE | `/properties/:id`                            | Deletes a property by ID                     |
 | GET    | `/user/me`                                   | Retrieves the current user’s profile         |
 | PATCH  | `/user/update`                               | Updates the current user’s profile           |
-| GET    | `/user/change-password`                       | Changes the current user’s password          |
+| GET    | `/user/change-password`                      | Changes the current user’s password          |
 ```
 
 **Note**: Endpoints requiring authentication use a JWT token in the `Authorization` header (Bearer token). Visit `/api` in Swagger UI for detailed request/response schemas.
