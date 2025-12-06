@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
 
@@ -35,7 +35,7 @@ export class AuthService {
   }: RegisterDto): Promise<UserResponse> {
     try {
       const already: UserDocument | null = await this.userModel.findOne({
-        res,
+        email,
       });
 
       if (already) throw new ConflictException('User already exists');

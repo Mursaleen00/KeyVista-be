@@ -6,7 +6,7 @@ import { updateResponse } from 'src/utils/update-response';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { User, UserDocument } from 'src/schemas/register.schema';
 
 @Injectable()
