@@ -8,7 +8,7 @@
 - [Features](#features)
 - [Technologies](#technologies)
 - [API Endpoints](#api-endpoints)
-- [Project Structure](#project-structure)
+- [Project Structure](#project-structure).
 
 ## Live Demo
 Check out the live demo of the project [Key-Vista](https://keyvista-be-production.up.railway.app/api).
